@@ -34,7 +34,7 @@ DeviceFileEvents
 | where DeviceName == "buggs"  
 | where InitiatingProcessAccountName == "employee"  
 | where FileName contains "tor"  
-| where Timestamp >= datetime(2024-11-08T22:14:48.6065231Z)  
+| where Timestamp >= datetime(2026-01-02T22:14:48.6065231Z)  
 | order by Timestamp desc
 | project Timestamp, DeviceName, ActionType, FileName, FolderPath, SHA256, Account = InitiatingProcessAccountName
 ```
