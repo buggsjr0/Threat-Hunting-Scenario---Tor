@@ -68,15 +68,14 @@ Searched for any indication that account "Emp000555" actually opened the TOR bro
 **Query used to locate events:**
 
 ```kql
-DeviceFileEvents
-| where FileName has_any ("tor")
-| where InitiatingProcessAccountName like "emp"
-| where Timestamp >= datetime(2026-01-07T01:56:30.689981Z)
-| project Timestamp, AccountName = InitiatingProcessAccountName, ActionType, FileName, FolderPath, SHA256, Account = InitiatingProcessAccountName
-| order by Timestamp desc
+DeviceProcessEvents
+| where AccountName like "emp000555"
+| where FileName has_any ("tor.exe", "firefox.exe", "tor-browser.exe") 
+| project Timestamp, AccountName, ActionType, FileName, FolderPath, ProcessCommandLine, SHA256
+| order by Timestamp desc 
 ```
 
-<img width="1167" height="275" alt="image" src="https://github.com/user-attachments/assets/75838af3-942b-405f-b248-20a7956f23c9" />
+<img width="1169" height="267" alt="image" src="https://github.com/user-attachments/assets/efc82872-ccd9-42db-958a-c2940d0d169c" />
 
 
 ---
@@ -91,12 +90,14 @@ Searched for any indication the TOR browser was used to establish a connection u
 DeviceNetworkEvents
 | where InitiatingProcessAccountName == "emp000555"
 | where InitiatingProcessAccountName != "system"
+| where InitiatingProcessFileName in ("tor.exe", "firefox.exe")
 | where RemotePort in ("9001", "9030", "9040", "9050", "9051", "9150", "443")
 | project Timestamp, Account = InitiatingProcessAccountName, ActionType, RemoteIP, RemotePort, RemoteUrl, InitiatingProcessFileName, InitiatingProcessFolderPath
 | order by Timestamp desc 
-```
-<<img width="1170" height="272" alt="image" src="https://github.com/user-attachments/assets/714c2f20-039e-4dd2-9f47-a66ba978fe1c" />
 
+```
+
+<img width="1172" height="262" alt="image" src="https://github.com/user-attachments/assets/e16d8463-fda8-41fe-bff1-0587c808c652" />
 
 
 ---
@@ -113,7 +114,7 @@ DeviceNetworkEvents
 ### 2. Process Execution - TOR Browser Installation
 
 - **Timestamp:** `2026-01-03T07:32:29.6599418Z`
-- **Event:** The user "buggs" executed the file `tor-browser-windows-x86_64-portable-15.0.3.exe` in silent mode, initiating a background installation of the TOR Browser.
+- **Event:** The user "emp000555" executed the file `tor-browser-windows-x86_64-portable-15.0.3.exe` in silent mode, initiating a background installation of the TOR Browser.
 - **Action:** Process creation detected.
 - **Command:** `tor-browser-windows-x86_64-portable-15.0.3.exe /S`
 - **File Path:** `C:\Users\emp000555\Downloads\tor-browser-windows-x86_64-portable-15.0.3.exe`
@@ -121,7 +122,7 @@ DeviceNetworkEvents
 ### 3. Process Execution - TOR Browser Launch
 
 - **Timestamp:** `2026-01-03T07:33:18.2186813Z`
-- **Event:** User "employee" opened the TOR browser. Subsequent processes associated with TOR browser, such as `firefox.exe` and `tor.exe`, were also created, indicating that the browser launched successfully.
+- **Event:** User "emp000555" opened the TOR browser. Subsequent processes associated with TOR browser, such as `firefox.exe` and `tor.exe`, were also created, indicating that the browser launched successfully.
 - **Action:** Process creation of TOR browser-related executables detected.
 - **File Path:** `C:\Users\emp000555\Desktop\Tor Browser\Browser\TorBrowser\Tor\tor.exe`
 
@@ -152,7 +153,7 @@ DeviceNetworkEvents
 
 ## Summary
 
-The user "buggs" on the "buggs" device initiated and completed the installation of the TOR browser. They proceeded to launch the browser, establish connections within the TOR network, and created various files related to TOR on their desktop, including a file named `tor-shopping-list.txt`. This sequence of activities indicates that the user actively installed, configured, and used the TOR browser, likely for anonymous browsing purposes, with possible documentation in the form of the "shopping list" file.
+The user "emp000555" device initiated and completed the installation of the TOR browser. They proceeded to launch the browser, establish connections within the TOR network, and created various files related to TOR on their desktop, including a file named `tor-shopping-list.txt`. This sequence of activities indicates that the user actively installed, configured, and used the TOR browser, likely for anonymous browsing purposes, with possible documentation in the form of the "shopping list" file.
 
 ---
 
