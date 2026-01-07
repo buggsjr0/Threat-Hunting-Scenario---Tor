@@ -56,7 +56,8 @@ DeviceProcessEvents
 | where Account like  "emp000555"
 
 ```
-<img width="2318" height="990" alt="image" src="https://github.com/user-attachments/assets/f4fbc8ee-d1e3-4730-9217-34ed7fd9f58e" />
+
+<img width="2404" height="136" alt="image" src="https://github.com/user-attachments/assets/129937de-28d6-4cb9-9fed-3204a850d587" />
 
 ---
 
@@ -74,7 +75,9 @@ DeviceFileEvents
 | project Timestamp, AccountName = InitiatingProcessAccountName, ActionType, FileName, FolderPath, SHA256, Account = InitiatingProcessAccountName
 | order by Timestamp desc
 ```
-<img width="1158" height="485" alt="image" src="https://github.com/user-attachments/assets/48651ec5-d482-4bbe-84a5-f338eceaf568" />
+
+<img width="1168" height="275" alt="image" src="https://github.com/user-attachments/assets/aab5fa82-f278-420c-b9bd-7209f43747ee" />
+
 
 ---
 
