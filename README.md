@@ -44,7 +44,7 @@ DeviceFileEvents
 
 ### 2. Searched the `DeviceProcessEvents` Table
 
-Searched for any `ProcessCommandLine` that contained the string "tor-browser-windows-x86_64-portable-15.0.3.exe". Based on the logs returned, at `2026-01-07T01:56:30.689981Z`, an employee on the account 'Emp000555' ran the file `tor-browser-windows-x86_64-portable-15.0.3.exe` from their Downloads folder, using a command that triggered a silent installation.
+Searched for any `ProcessCommandLine` that contained the string "tor-browser-windows". Based on the logs returned, at `2026-01-07T01:56:30.689981Z`, an employee on the account 'Emp000555' ran the file `tor-browser-windows-x86_64-portable-15.0.3.exe` from their Downloads folder, using a command that triggered a silent installation.
 
 **Query used to locate event:**
 
@@ -76,7 +76,7 @@ DeviceFileEvents
 | order by Timestamp desc
 ```
 
-<img width="1168" height="275" alt="image" src="https://github.com/user-attachments/assets/aab5fa82-f278-420c-b9bd-7209f43747ee" />
+<img width="1167" height="275" alt="image" src="https://github.com/user-attachments/assets/75838af3-942b-405f-b248-20a7956f23c9" />
 
 
 ---
@@ -88,14 +88,15 @@ Searched for any indication the TOR browser was used to establish a connection u
 **Query used to locate events:**
 
 ```kql
-DeviceNetworkEvents  
-| where DeviceName == "buggs"  
-| where InitiatingProcessAccountName != "system"   
-| where RemotePort in ("9001", "9030", "9040", "9050", "9051", "9150", "443")  
-| project Timestamp, DeviceName, ActionType, RemoteIP, RemotePort, RemoteUrl, InitiatingProcessFileName, InitiatingProcessFolderPath
-| order by Timestamp desc
+DeviceNetworkEvents
+| where InitiatingProcessAccountName == "emp000555"
+| where InitiatingProcessAccountName != "system"
+| where RemotePort in ("9001", "9030", "9040", "9050", "9051", "9150", "443")
+| project Timestamp, Account = InitiatingProcessAccountName, ActionType, RemoteIP, RemotePort, RemoteUrl, InitiatingProcessFileName, InitiatingProcessFolderPath
+| order by Timestamp desc 
 ```
-<img width="782" height="207" alt="image" src="https://github.com/user-attachments/assets/dd47e1a9-3529-4496-85ae-3e57c5cf40ed" />
+<<img width="1170" height="272" alt="image" src="https://github.com/user-attachments/assets/714c2f20-039e-4dd2-9f47-a66ba978fe1c" />
+
 
 
 ---
