@@ -57,7 +57,7 @@ DeviceProcessEvents
 
 ```
 
-<img width="2404" height="136" alt="image" src="https://github.com/user-attachments/assets/129937de-28d6-4cb9-9fed-3204a850d587" />
+<img width="2402" height="170" alt="image" src="https://github.com/user-attachments/assets/1cd6d5fb-e498-461d-9861-ce2f2919feea" />
 
 ---
 
