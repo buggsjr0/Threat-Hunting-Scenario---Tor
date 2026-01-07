@@ -30,50 +30,52 @@ Searched for any file that had the string "tor" in it and discovered what looks 
 **Query used to locate events:**
 
 ```kql
-DeviceFileEvents  
-| where FileName has_any ("tor")
+DeviceFileEvents
+| where FileName startswith "tor"
 | where InitiatingProcessAccountName like "emp"
 | where Timestamp >= datetime(2026-01-07T01:56:30.689981Z)
 | order by Timestamp desc
 | project Timestamp, Account = InitiatingProcessAccountName , ActionType, FileName, FolderPath, SHA256
 ```
-<img width="808" height="225" alt="image" src="https://github.com/user-attachments/assets/90f9e371-0ece-4f8a-86fd-91b6ec784f0a" />
+<img width="1186" height="552" alt="image" src="https://github.com/user-attachments/assets/96c7b854-d04d-42a2-865d-b81b6daef9db" />
+
 
 
 ---
 
 ### 2. Searched the `DeviceProcessEvents` Table
 
-Searched for any `ProcessCommandLine` that contained the string "tor-browser-windows-x86_64-portable-14.0.1.exe". Based on the logs returned, at `2026-01-03T07:16:47.4484567Z`, an employee on the "threat-hunt-lab" device ran the file `tor-browser-windows-x86_64-portable-15.0.3.exe` from their Downloads folder, using a command that triggered a silent installation.
+Searched for any `ProcessCommandLine` that contained the string "tor-browser-windows-x86_64-portable-15.0.3.exe". Based on the logs returned, at `2026-01-07T01:56:30.689981Z`, an employee on the account 'Emp000555' ran the file `tor-browser-windows-x86_64-portable-15.0.3.exe` from their Downloads folder, using a command that triggered a silent installation.
 
 **Query used to locate event:**
 
 ```kql
 
-DeviceProcessEvents  
-| where DeviceName == "buggs"  
-| where ProcessCommandLine contains "tor-browser-windows-x86_64-portable-15.0.3.exe"  
-| project Timestamp, DeviceName, AccountName, ActionType, FileName, FolderPath, SHA256, ProcessCommandLine
+DeviceProcessEvents
+| where ProcessCommandLine startswith  "tor-browser-windows"
+| project Timestamp, Account = InitiatingProcessAccountName, ActionType, FileName, ProcessCommandLine
+| where Account like  "emp000555"
+
 ```
-<img width="822" height="112" alt="image" src="https://github.com/user-attachments/assets/c6c496bc-23b4-45db-90fc-2b4a8cf07e14" />
+<img width="2318" height="990" alt="image" src="https://github.com/user-attachments/assets/f4fbc8ee-d1e3-4730-9217-34ed7fd9f58e" />
 
 ---
 
 ### 3. Searched the `DeviceProcessEvents` Table for TOR Browser Execution
 
-Searched for any indication that user "employee" actually opened the TOR browser. There was evidence that they did open it at `2026-01-08T07:17:21.6357935Z`. There were several other instances of `firefox.exe` (TOR) as well as `tor.exe` spawned afterwards.
+Searched for any indication that account "Emp000555" actually opened the TOR browser. There was evidence that they did open it at `2026-01-07T02:00:24.6754076Z` There were several other instances of `firefox.exe` (TOR) as well as `tor.exe` spawned afterwards.
 
 **Query used to locate events:**
 
 ```kql
-DeviceProcessEvents  
-| where DeviceName == "buggs"  
-| where FileName has_any ("tor.exe", "firefox.exe", "tor-browser.exe")  
-| project Timestamp, DeviceName, AccountName, ActionType, FileName, FolderPath, SHA256, ProcessCommandLine
+DeviceFileEvents
+| where FileName has_any ("tor")
+| where InitiatingProcessAccountName like "emp"
+| where Timestamp >= datetime(2026-01-07T01:56:30.689981Z)
+| project Timestamp, AccountName = InitiatingProcessAccountName, ActionType, FileName, FolderPath, SHA256, Account = InitiatingProcessAccountName
 | order by Timestamp desc
 ```
-<img width="803" height="168" alt="image" src="https://github.com/user-attachments/assets/e2bc92ec-e83d-43ee-a876-ff86617b4bba" />
-
+<img width="1158" height="485" alt="image" src="https://github.com/user-attachments/assets/48651ec5-d482-4bbe-84a5-f338eceaf568" />
 
 ---
 
